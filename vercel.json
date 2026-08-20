@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/api/:match*",
+      "destination": "https://mokshita-final-release.onrender.com/api/:match*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/"
     }

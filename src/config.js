@@ -1,26 +1,38 @@
 /**
  * Mokshita Admin — Runtime API & Backend Configuration
- * Resolves production backend URL from Vite environment, window runtime or production fallback.
+ * Seamlessly resolves API endpoint with Vercel/Vite same-origin proxy to eliminate CORS errors.
  */
 
 function resolveApiBase() {
-  const rawUrl =
-    (typeof window !== 'undefined' && (window.__BACKEND_URL__ || window.BACKEND_URL)) ||
-    import.meta.env.VITE_API_URL ||
-    import.meta.env.VITE_BACKEND_URL ||
-    'https://mokshita-final-release.onrender.com';
-
-  const clean = String(rawUrl).trim().replace(/\/+$/, '');
-
-  // If already ends in /api or /api/v1, use directly
-  if (/\/api(?:\/v\d+)?$/i.test(clean)) {
-    return clean;
+  if (typeof window !== 'undefined' && (window.__BACKEND_URL__ || window.BACKEND_URL)) {
+    const raw = String(window.__BACKEND_URL__ || window.BACKEND_URL).trim().replace(/\/+$/, '');
+    return /\/api(?:\/v\d+)?$/i.test(raw) ? raw : `${raw}/api`;
   }
-  return `${clean}/api`;
+
+  if (import.meta.env.VITE_API_URL) {
+    const raw = String(import.meta.env.VITE_API_URL).trim().replace(/\/+$/, '');
+    return /\/api(?:\/v\d+)?$/i.test(raw) ? raw : `${raw}/api`;
+  }
+
+  if (import.meta.env.VITE_BACKEND_URL) {
+    const raw = String(import.meta.env.VITE_BACKEND_URL).trim().replace(/\/+$/, '');
+    return /\/api(?:\/v\d+)?$/i.test(raw) ? raw : `${raw}/api`;
+  }
+
+  // When deployed on Vercel or any web host, use same-origin /api to leverage vercel.json proxy
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+    return '/api';
+  }
+
+  // Local development fallback (Vite dev server proxies /api to Render backend)
+  return '/api';
 }
 
 export const API_BASE = resolveApiBase();
-export const BACKEND_URL = API_BASE.replace(/\/(?:api(?:\/v\d+)?)?\/?$/i, '');
+export const BACKEND_URL = API_BASE.startsWith('http')
+  ? API_BASE.replace(/\/(?:api(?:\/v\d+)?)?\/?$/i, '')
+  : 'https://mokshita-final-release.onrender.com';
+
 export const STOREFRONT_URL = 'https://www.mokshithandicrafts.com';
 
-console.log('[API CONFIG] Resolved API_BASE:', API_BASE);
+console.log('[API CONFIG] Active API_BASE:', API_BASE);
