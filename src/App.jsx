@@ -1,54 +1,61 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from '@/context/AuthContext';
-import { ToastProvider } from '@/context/ToastContext';
-import { AdminLayout } from '@/layouts/AdminLayout';
-import Login from '@/pages/Login';
-import ForgotPassword from '@/pages/ForgotPassword';
-import ResetPassword from '@/pages/ResetPassword';
-import Dashboard from '@/pages/Dashboard';
-import Products from '@/pages/Products';
-import ProductForm from '@/pages/ProductForm';
-import Orders from '@/pages/Orders';
-import Analytics from '@/pages/Analytics';
-import Settings from '@/pages/Settings';
-import Customers from '@/pages/Customers';
-import Inventory from '@/pages/Inventory';
-import Billing from '@/pages/Billing';
-import Reports from '@/pages/Reports';
-import Notifications from '@/pages/Notifications';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { ProtectedRoute } from './components/layout/ProtectedRoute';
+import { AdminLayout } from './components/layout/AdminLayout';
 
-function App() {
+// Pages
+import { Login } from './pages/Login';
+import { Dashboard } from './pages/Dashboard';
+import { OrdersList } from './pages/Orders/OrdersList';
+import { OrderDetail } from './pages/Orders/OrderDetail';
+import { ProductsList } from './pages/Products/ProductsList';
+import { ProductForm } from './pages/Products/ProductForm';
+import { CustomersList } from './pages/Customers/CustomersList';
+import { CustomerDetail } from './pages/Customers/CustomerDetail';
+import { QueriesList } from './pages/Queries/QueriesList';
+import { PaymentsList } from './pages/Payments/PaymentsList';
+import { InventoryList } from './pages/Inventory/InventoryList';
+import { AnalyticsView } from './pages/Analytics/AnalyticsView';
+import { SettingsView } from './pages/Settings/SettingsView';
+
+export const App = () => {
   return (
-    <Router>
-      <ToastProvider>
-        <AuthProvider>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Login Route (Strictly for Administrators) */}
+          <Route path="/login" element={<Login />} />
 
-            <Route path="/" element={<AdminLayout />}>
-              <Route index element={<Navigate to="/dashboard" replace />} />
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="products" element={<Products />} />
-              <Route path="products/new" element={<ProductForm />} />
-              <Route path="products/:id/edit" element={<ProductForm />} />
-              <Route path="orders" element={<Orders />} />
-              <Route path="customers" element={<Customers />} />
-              <Route path="inventory" element={<Inventory />} />
-              <Route path="analytics" element={<Analytics />} />
-              <Route path="billing" element={<Billing />} />
-              <Route path="reports" element={<Reports />} />
-              <Route path="notifications" element={<Notifications />} />
-              <Route path="settings" element={<Settings />} />
-            </Route>
+          {/* Protected Admin Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="orders" element={<OrdersList />} />
+            <Route path="orders/:id" element={<OrderDetail />} />
+            <Route path="products" element={<ProductsList />} />
+            <Route path="products/new" element={<ProductForm />} />
+            <Route path="products/:id" element={<ProductForm />} />
+            <Route path="customers" element={<CustomersList />} />
+            <Route path="customers/:id" element={<CustomerDetail />} />
+            <Route path="queries" element={<QueriesList />} />
+            <Route path="payments" element={<PaymentsList />} />
+            <Route path="inventory" element={<InventoryList />} />
+            <Route path="analytics" element={<AnalyticsView />} />
+            <Route path="settings" element={<SettingsView />} />
+          </Route>
 
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
-        </AuthProvider>
-      </ToastProvider>
-    </Router>
+          {/* Root redirect to /admin */}
+          <Route path="/" element={<Navigate to="/admin" replace />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
-}
-
-export default App;
+};

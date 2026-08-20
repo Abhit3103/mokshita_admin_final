@@ -1,0 +1,93 @@
+/* ============================================================
+   MOKSHITA HANDICRAFTS — ADMIN DESIGN SYSTEM TOKENS
+   Warm Heritage Artisan & Professional Administration System
+   ============================================================ */
+
+:root {
+  /* ── Backgrounds (Warm Ivory & Layered Cream) ────────── */
+  --bg-app:        #F6F1E8;
+  --bg-subtle:     #EFE6D8;
+  --bg-card:       #FFFFFF;
+  --bg-sidebar:    #1F1813;
+  --bg-sidebar-alt:#2A2019;
+  --bg-sidebar-hover: rgba(255, 255, 255, 0.07);
+  --bg-sidebar-active: rgba(176, 141, 87, 0.22);
+  --bg-input:      #FFFFFF;
+  --bg-hover:      #F4EDE0;
+  --bg-active:     #EADEC9;
+
+  /* ── Text & Typography ───────────────────────────────── */
+  --text-primary:   #2E241B;
+  --text-secondary: #6E6257;
+  --text-muted:     #8F8175;
+  --text-light:     #B5AB9F;
+  --text-white:     #FFFFFF;
+  --text-sidebar:   #D9CEC3;
+  --text-sidebar-muted: #9E9184;
+
+  --font-display:   'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-serif:     'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  --font-sans:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ── Accents (Heritage Gold & Terracotta) ────────────── */
+  --gold:           #B08D57;
+  --gold-hover:     #8F7041;
+  --gold-light:     #C9AF85;
+  --gold-pale:      rgba(176, 141, 87, 0.12);
+  --gold-glow:      rgba(176, 141, 87, 0.25);
+  
+  --terra:          #A85832;
+  --terra-pale:     rgba(168, 88, 50, 0.1);
+
+  /* ── Status & State Colors ───────────────────────────── */
+  --status-success-text: #1B5E20;
+  --status-success-bg:   #E8F5E9;
+  --status-success-bd:   #C8E6C9;
+
+  --status-warning-text: #B25E00;
+  --status-warning-bg:   #FFF3E0;
+  --status-warning-bd:   #FFE0B2;
+
+  --status-info-text:    #0D47A1;
+  --status-info-bg:      #E3F2FD;
+  --status-info-bd:      #BBDEFB;
+
+  --status-danger-text:  #B71C1C;
+  --status-danger-bg:    #FFEBEE;
+  --status-danger-bd:    #FFCDD2;
+
+  --status-neutral-text: #4E4238;
+  --status-neutral-bg:   #EFE6D8;
+  --status-neutral-bd:   #DCCFC0;
+
+  /* ── Borders & Outlines ──────────────────────────────── */
+  --border-color:      rgba(176, 141, 87, 0.22);
+  --border-light:      rgba(176, 141, 87, 0.12);
+  --border-dark:       rgba(46, 36, 27, 0.15);
+  --border-focus:      #B08D57;
+
+  /* ── Radii ───────────────────────────────────────────── */
+  --radius-xs:    4px;
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --radius-lg:    16px;
+  --radius-xl:    24px;
+  --radius-full:  9999px;
+
+  /* ── Shadows ─────────────────────────────────────────── */
+  --shadow-xs:    0 1px 3px rgba(46, 36, 27, 0.05);
+  --shadow-sm:    0 3px 10px rgba(46, 36, 27, 0.06);
+  --shadow-md:    0 8px 24px rgba(46, 36, 27, 0.08);
+  --shadow-lg:    0 16px 40px rgba(46, 36, 27, 0.12);
+  --shadow-gold:  0 6px 20px rgba(176, 141, 87, 0.25);
+
+  /* ── Layout Dimensions ───────────────────────────────── */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 76px;
+  --topbar-height: 70px;
+
+  /* ── Transitions ─────────────────────────────────────── */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}

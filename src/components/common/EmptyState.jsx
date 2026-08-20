@@ -1,16 +1,20 @@
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { PackageOpen } from 'lucide-react';
 
-export function EmptyState({ icon: Icon, title, description, action, className }) {
+export const EmptyState = ({
+  title = 'No records found',
+  description = 'There are no items matching your criteria at this moment.',
+  action,
+  icon: Icon = PackageOpen,
+}) => {
   return (
-    <div className={cn('flex flex-col items-center justify-center rounded-2xl border border-dashed border-zinc-700 bg-zinc-900/40 px-6 py-14 text-center', className)}>
-      {Icon && (
-        <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-400">
-          <Icon className="h-7 w-7" />
-        </div>
-      )}
-      <h3 className="text-lg font-semibold text-zinc-100">{title}</h3>
-      {description && <p className="mt-2 max-w-sm text-sm text-zinc-400">{description}</p>}
-      {action && <div className="mt-6">{action}</div>}
+    <div className="state-container">
+      <div className="state-icon state-icon-gold">
+        <Icon size={26} />
+      </div>
+      <h3 className="state-title">{title}</h3>
+      <p className="state-description">{description}</p>
+      {action && <div style={{ marginTop: '12px' }}>{action}</div>}
     </div>
   );
-}
+};

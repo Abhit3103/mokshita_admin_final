@@ -1,7 +1,0 @@
-# Query: limit: 500
-
-2 results - 1 file
-
-admin-ui\src\services\analyticsService.js:
-  39:   const orders = await listOrders({ limit:100  });
-  47:     listOrders({ limit: 100 }),
