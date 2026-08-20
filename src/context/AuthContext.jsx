@@ -46,8 +46,8 @@ export const AuthProvider = ({ children }) => {
           meUser?.role === 'admin' ||
           jwtPayload?.app_metadata?.role === 'admin' ||
           jwtPayload?.user_metadata?.role === 'admin' ||
-          meUser?.email === 'admin@test.com' ||
-          jwtPayload?.email === 'admin@test.com';
+          meUser?.email === 'admin@mokshita.com' ||
+          jwtPayload?.email === 'admin@mokshita.com';
 
         if (apiErr && !jwtPayload) {
           logout();
@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
         } else {
           setUser({
             ...meUser,
-            email: meUser?.email || jwtPayload?.email,
+            email: meUser?.email || jwtPayload?.email || 'admin@mokshita.com',
             full_name: meUser?.full_name || jwtPayload?.user_metadata?.full_name || 'Mokshita Admin',
             role: 'admin',
           });
@@ -100,8 +100,8 @@ export const AuthProvider = ({ children }) => {
         receivedUser?.role === 'admin' ||
         jwtPayload?.app_metadata?.role === 'admin' ||
         jwtPayload?.user_metadata?.role === 'admin' ||
-        email.toLowerCase().trim() === 'admin@test.com' ||
-        jwtPayload?.email === 'admin@test.com';
+        email.toLowerCase().trim() === 'admin@mokshita.com' ||
+        jwtPayload?.email === 'admin@mokshita.com';
 
       if (!isAdmin) {
         const msg = 'Access Forbidden: Admin access is restricted to administrator accounts.';

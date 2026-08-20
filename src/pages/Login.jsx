@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { Sparkles, Lock, Mail, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('admin@mokshita.com');
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState(null);
@@ -87,7 +87,7 @@ export const Login = () => {
                 required
                 className="form-input"
                 style={{ paddingLeft: '40px', width: '100%' }}
-                placeholder="admin@mokshithandicrafts.com"
+                placeholder="admin@mokshita.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={submitting}
@@ -119,6 +119,7 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={submitting}
+                autoFocus={email === 'admin@mokshita.com'}
               />
             </div>
           </div>
