@@ -33,6 +33,6 @@ export const BACKEND_URL = API_BASE.startsWith('http')
   ? API_BASE.replace(/\/(?:api(?:\/v\d+)?)?\/?$/i, '')
   : 'https://mokshita-final-release.onrender.com';
 
-export const STOREFRONT_URL = 'https://www.mokshithandicrafts.com';
+export const STOREFRONT_URL = 'https://www.mokshitahandicrafts.com';
 
 console.log('[API CONFIG] Active API_BASE:', API_BASE);

@@ -8,7 +8,7 @@ import { ConfirmDialog } from '../../components/common/ConfirmDialog';
 import { LoadingState } from '../../components/common/LoadingState';
 import { EmptyState } from '../../components/common/EmptyState';
 import { ErrorState } from '../../components/common/ErrorState';
-import { Package, Plus, Edit, Trash2, Filter } from 'lucide-react';
+import { Package, Plus, Edit, Trash2, Filter, Database, ImagePlus, Image as ImageIcon } from 'lucide-react';
 
 export const ProductsList = () => {
   const [products, setProducts] = useState([]);
@@ -144,6 +144,11 @@ export const ProductsList = () => {
             <option value="out_of_stock">Out of Stock (0)</option>
           </select>
 
+          <Link to="/admin/media" className="btn btn-secondary btn-sm" title="Open Media & Product Images Database">
+            <Database size={15} color="var(--gold)" />
+            <span>Media Database</span>
+          </Link>
+
           <Link to="/admin/products/new" className="btn btn-primary btn-sm">
             <Plus size={16} />
             <span>Add Product</span>
@@ -197,23 +202,41 @@ export const ProductsList = () => {
                     const stock = parseInt(product.stock) || 0;
                     const stockStatus =
                       stock >= 10 ? 'in_stock' : stock > 0 ? 'low_stock' : 'out_of_stock';
+                    const hasImage = Boolean(product.image_url);
 
                     return (
                       <tr key={product.id}>
                         <td>
                           <div className="table-product-cell">
-                            <img
-                              src={
-                                product.image_url ||
-                                'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=100&auto=format&fit=crop&q=80'
-                              }
-                              alt={product.name}
-                              className="table-product-img"
-                              onError={(e) => {
-                                e.target.src =
-                                  'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=100&auto=format&fit=crop&q=80';
-                              }}
-                            />
+                            <div style={{ position: 'relative' }}>
+                              <img
+                                src={
+                                  product.image_url ||
+                                  'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=100&auto=format&fit=crop&q=80'
+                                }
+                                alt={product.name}
+                                className="table-product-img"
+                                onError={(e) => {
+                                  e.target.src =
+                                    'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?w=100&auto=format&fit=crop&q=80';
+                                }}
+                              />
+                              {!hasImage && (
+                                <span
+                                  title="Missing image"
+                                  style={{
+                                    position: 'absolute',
+                                    bottom: '-4px',
+                                    right: '-4px',
+                                    width: '12px',
+                                    height: '12px',
+                                    borderRadius: '50%',
+                                    backgroundColor: '#FF9800',
+                                    border: '2px solid #fff',
+                                  }}
+                                />
+                              )}
+                            </div>
                             <div>
                               <div className="table-product-title">{product.name}</div>
                               <div className="table-product-subtitle">
@@ -256,6 +279,14 @@ export const ProductsList = () => {
                         </td>
                         <td>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <Link
+                              to={`/admin/media?product=${product.id}`}
+                              className="btn btn-secondary btn-sm"
+                              style={{ padding: '5px 8px', color: 'var(--gold-hover)' }}
+                              title="Upload / Manage Image in Database"
+                            >
+                              <ImagePlus size={14} />
+                            </Link>
                             <Link
                               to={`/admin/products/${product.id}`}
                               className="btn btn-secondary btn-sm"

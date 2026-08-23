@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { api } from '../../services/api';
+import { smartUploadImage } from '../../utils/imageUploader';
 import { LoadingState } from '../../components/common/LoadingState';
 import { ErrorState } from '../../components/common/ErrorState';
 import {
@@ -12,6 +13,10 @@ import {
   Loader2,
   CheckCircle,
   AlertCircle,
+  Database,
+  ExternalLink,
+  Trash2,
+  Sparkles,
 } from 'lucide-react';
 
 export const ProductForm = () => {
@@ -89,23 +94,13 @@ export const ProductForm = () => {
     setUploadingImage(true);
     setServerError(null);
 
-    const formData = new FormData();
-    formData.append('image', file);
-
     try {
-      const { data, error: uploadErr } = await api.upload.image(formData);
-      if (uploadErr) {
-        setServerError(uploadErr);
-      } else if (data?.url) {
-        // If relative URL returned, format it with backend URL
-        let fullUrl = data.url;
-        if (fullUrl.startsWith('/')) {
-          fullUrl = `${api.getBackendUrl()}${fullUrl}`;
-        }
-        handleChange('image_url', fullUrl);
+      const uploadResult = await smartUploadImage(file);
+      if (uploadResult?.url) {
+        handleChange('image_url', uploadResult.url);
       }
     } catch (err) {
-      setServerError(err.message || 'Image upload failed');
+      setServerError(err.message || 'Image processing failed');
     } finally {
       setUploadingImage(false);
     }
@@ -374,17 +369,55 @@ export const ProductForm = () => {
                 <ImageIcon size={18} color="var(--gold)" />
                 <span>Product Image</span>
               </div>
+              {isEdit && (
+                <Link
+                  to={`/admin/media?product=${id}`}
+                  className="btn btn-secondary btn-sm"
+                  style={{ fontSize: '11px', padding: '4px 8px', gap: '4px' }}
+                  title="Open Media Database Studio"
+                >
+                  <Database size={12} color="var(--gold)" />
+                  <span>Media Studio</span>
+                  <ExternalLink size={10} />
+                </Link>
+              )}
             </div>
             <div className="card-body" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div className="image-preview-box">
                 {form.image_url ? (
-                  <img
-                    src={form.image_url}
-                    alt="Product Preview"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
+                  <>
+                    <img
+                      src={form.image_url}
+                      alt="Product Preview"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleChange('image_url', '')}
+                      style={{
+                        position: 'absolute',
+                        top: '8px',
+                        right: '8px',
+                        background: 'rgba(0,0,0,0.65)',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: 'var(--radius-xs)',
+                        padding: '5px 8px',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        fontSize: '11px',
+                        backdropFilter: 'blur(4px)',
+                      }}
+                      title="Clear image"
+                    >
+                      <Trash2 size={12} />
+                      <span>Remove</span>
+                    </button>
+                  </>
                 ) : (
                   <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '20px' }}>
                     <ImageIcon size={36} style={{ margin: '0 auto 8px', color: 'var(--gold)' }} />
@@ -432,6 +465,43 @@ export const ProductForm = () => {
                     style={{ display: 'none' }}
                   />
                 </label>
+              </div>
+
+              {/* Recommended Specs Hint */}
+              <div
+                style={{
+                  padding: '10px 12px',
+                  background: 'var(--bg-app)',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '11.5px',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.4',
+                }}
+              >
+                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: '3px' }}>
+                  Recommended Image Specs:
+                </div>
+                <div>• <strong>Dimensions:</strong> 800 × 800 px to 1200 × 1200 px (Square 1:1)</div>
+                <div>• <strong>Max Size:</strong> Under 5 MB (Auto-optimized to WebP)</div>
+                <div>• <strong>Formats:</strong> JPG, PNG, WEBP, AVIF, SVG</div>
+              </div>
+
+              <div style={{ textAlign: 'center' }}>
+                <Link
+                  to="/admin/media"
+                  style={{
+                    fontSize: '12px',
+                    color: 'var(--gold-hover)',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    textDecoration: 'none',
+                    fontWeight: 500,
+                  }}
+                >
+                  <Database size={13} />
+                  <span>Browse Media & Images Database</span>
+                </Link>
               </div>
             </div>
           </div>

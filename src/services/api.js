@@ -129,9 +129,19 @@ export const api = {
     image: (formData) =>
       call(() =>
         client.post('/upload', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: {
+            'Content-Type': undefined, // Let Axios set multipart/form-data with boundary
+          },
         })
       ),
+  },
+
+  // ── Store & Delivery Settings ────────────────────────
+  settings: {
+    getDelivery: () =>
+      call(() => client.get('/admin/settings/delivery')),
+    updateDelivery: (data) =>
+      call(() => client.put('/admin/settings/delivery', data)),
   },
 
   // ── System ────────────────────────────────────────────

@@ -18,6 +18,7 @@ import { PaymentsList } from './pages/Payments/PaymentsList';
 import { InventoryList } from './pages/Inventory/InventoryList';
 import { AnalyticsView } from './pages/Analytics/AnalyticsView';
 import { SettingsView } from './pages/Settings/SettingsView';
+import { MediaDatabase } from './pages/Media/MediaDatabase';
 
 export const App = () => {
   return (
@@ -47,6 +48,7 @@ export const App = () => {
             <Route path="queries" element={<QueriesList />} />
             <Route path="payments" element={<PaymentsList />} />
             <Route path="inventory" element={<InventoryList />} />
+            <Route path="media" element={<MediaDatabase />} />
             <Route path="analytics" element={<AnalyticsView />} />
             <Route path="settings" element={<SettingsView />} />
           </Route>
